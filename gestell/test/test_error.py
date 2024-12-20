@@ -63,7 +63,7 @@ async def test_collection_list_error():
 @pytest.mark.asyncio
 async def test_collection_create_error():
     response = await gestell.collection.create(
-        organizationId='...', name='...', description='...', type='canon'
+        organizationId='...', name='...', type='canon'
     )
     assert response.status == 'ERROR'
 
@@ -77,6 +77,34 @@ async def test_collection_update_error():
 @pytest.mark.asyncio
 async def test_collection_delete_error():
     response = await gestell.collection.delete('...')
+    assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_add_category_error():
+    response = await gestell.collection.add_category(
+        collection_id='...', name='...', type='concepts', instructions='...'
+    )
+    assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_update_category_error():
+    response = await gestell.collection.update_category(
+        collection_id='...',
+        category_id='...',
+        name='...',
+        type='concepts',
+        instructions='...',
+    )
+    assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_remove_category_error():
+    response = await gestell.collection.remove_category(
+        collection_id='...', category_id='...'
+    )
     assert response.status == 'ERROR'
 
 
@@ -157,6 +185,14 @@ async def test_collection_document_presign_error():
 async def test_collection_document_create_error():
     response = await gestell.document.create(
         collection_id='...', type='...', name='...', path='...'
+    )
+    assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_document_upload_error():
+    response = await gestell.document.upload_document(
+        collection_id='...', type='...', name='...', file='...'
     )
     assert response.status == 'ERROR'
 

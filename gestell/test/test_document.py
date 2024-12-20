@@ -4,6 +4,7 @@ from pathlib import Path
 from aiofile import AIOFile
 import aiohttp
 
+
 gestell = Gestell()
 organization_id = ''
 collection_id = ''
@@ -65,6 +66,27 @@ async def test_presign_upload_and_create_document():
     )
     assert create_response.status == 'OK'
     document_id = create_response.id
+
+
+@pytest.mark.asyncio
+async def test_upload_document_as_buffer_and_string():
+    test_file_path = Path(__file__).parent / 'sample.jpg'
+    response = await gestell.document.upload_document(
+        collection_id=collection_id, name='sample-2.jpg', file=str(test_file_path)
+    )
+
+    assert response.status == 'OK'
+
+    async with AIOFile(str(test_file_path), 'rb') as f:
+        file_content = await f.read()
+    response2 = await gestell.document.upload_document(
+        collection_id=collection_id,
+        name='sample-2.jpg',
+        type='image/jpeg',
+        file=file_content,
+    )
+
+    assert response2.status == 'OK'
 
 
 @pytest.mark.asyncio

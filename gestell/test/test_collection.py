@@ -4,6 +4,7 @@ from gestell import Gestell
 gestell = Gestell()
 organization_id = ''
 collection_id = ''
+category_id = ''
 
 
 @pytest.mark.asyncio
@@ -64,6 +65,39 @@ async def test_update_collection():
         collection_id=collection_id,
         name='Automated Test Collection updated',
         description='An automated test collection updated',
+    )
+    assert response.status == 'OK'
+
+
+@pytest.mark.asyncio
+async def test_add_category():
+    global category_id
+    response = await gestell.collection.add_category(
+        collection_id=collection_id,
+        name='Automated Test Category',
+        type='concepts',
+        instructions='Hello World',
+    )
+    assert response.status == 'OK'
+    assert len(response.id) > 1
+    category_id = response.id
+
+
+@pytest.mark.asyncio
+async def test_update_category():
+    response = await gestell.collection.update_category(
+        collection_id=collection_id,
+        category_id=category_id,
+        name='Automated Test Category Update',
+        instructions='Hello World Update',
+    )
+    assert response.status == 'OK'
+
+
+@pytest.mark.asyncio
+async def test_remove_category():
+    response = await gestell.collection.remove_category(
+        collection_id=collection_id, category_id=category_id
     )
     assert response.status == 'OK'
 

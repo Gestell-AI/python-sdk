@@ -1,6 +1,11 @@
 import os
-from typing import AsyncGenerator, List, Optional
+from typing import AsyncGenerator, List, Optional, Union
 from dotenv import load_dotenv
+from gestell.document.upload import (
+    UploadDocumentRequest,
+    UploadDocumentResponse,
+    upload_document,
+)
 from gestell.organization.create import (
     create_organization,
     CreateOrganizationRequest,
@@ -59,58 +64,84 @@ from gestell.collection.delete import (
     DeleteCollectionRequest,
     delete_collection,
 )
-from gestell.collection.query.search import (
+from gestell.collection.addCategory import (
+    add_category,
+    AddCategoryRequest,
+    AddCategoryResponse,
+)
+from gestell.collection.updateCategory import (
+    UpdateCategoryRequest,
+    UpdateCategoryResponse,
+    update_category,
+)
+from gestell.collection.removeCategory import (
+    RemoveCategoryRequest,
+    RemoveCategoryResponse,
+    remove_category,
+)
+from gestell.query.search import (
     search_query,
     SearchQueryRequest,
     SearchQueryResponse,
 )
-from gestell.collection.query.prompt import (
+from gestell.query.prompt import (
     PromptQueryRequest,
     prompt_query,
 )
-from gestell.collection.query.features import (
+from gestell.query.features import (
     featuresQuery,
     FeaturesQueryRequest,
     FeaturesQueryResponse,
 )
-from gestell.collection.query.table import (
+from gestell.query.table import (
     TablesQueryRequest,
     tables_query,
     TablesQueryResponse,
 )
-from gestell.collection.document.get import (
+from gestell.document.get import (
     GetDocumentResponse,
     GetDocumentRequest,
     get_document,
 )
-from gestell.collection.document.list import (
+from gestell.document.list import (
     GetDocumentsRequest,
     GetDocumentsResponse,
     list_documents,
 )
-from gestell.collection.document.presign import (
+from gestell.document.presign import (
     PresignDocumentRequest,
     PresignDocumentResponse,
     presign_document,
 )
-from gestell.collection.document.create import (
+from gestell.document.create import (
     CreateDocumentRequest,
     CreateDocumentResponse,
     create_document,
 )
-from gestell.collection.document.update import (
+from gestell.document.update import (
     update_document,
     UpdateDocumentRequest,
 )
-from gestell.collection.document.delete import delete_document, DeleteDocumentRequest
-from gestell.collection.job.get import GetJobRequest, get_job, GetJobResponse
-from gestell.collection.job.list import list_jobs, GetJobsRequest, GetJobsResponse
-from gestell.collection.job.reprocess import (
+from gestell.document.delete import (
+    delete_document,
+    DeleteDocumentRequest,
+)
+from gestell.job.get import (
+    GetJobRequest,
+    get_job,
+    GetJobResponse,
+)
+from gestell.job.list import (
+    list_jobs,
+    GetJobsRequest,
+    GetJobsResponse,
+)
+from gestell.job.reprocess import (
     reprocess_document,
     ReprocessDocumentsRequest,
     ReprocessDocumentsResponse,
 )
-from gestell.collection.job.cancel import (
+from gestell.job.cancel import (
     cancel_jobs,
     CancelJobsRequest,
     CancelJobsResponse,
@@ -119,6 +150,7 @@ from gestell.types import (
     BaseResponse,
     OrganizationMemberPayload,
     CollectionType,
+    CategoryType,
     CreateCategoryPayload,
     JobStatusType,
     SearchMethod,
@@ -614,6 +646,101 @@ class Gestell:
             response: BaseResponse = await delete_collection(request)
             return response
 
+        async def add_category(
+            self,
+            collection_id: str,
+            name: str,
+            type: str,
+            instructions: str,
+        ) -> AddCategoryResponse:
+            """
+            Adds a new category to an existing collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#collection
+
+            @param payload - The details of the category to add, including:
+            - `collection_id`: The ID of the collection to which the category will be added.
+            - `name`: The name of the new category.
+            - `type`: The type of the category (e.g., custom or predefined).
+            - `instructions`: Additional instructions or notes related to the category.
+
+            @returns A promise that resolves to the response of the category addition, including:
+            - `status`: The status of the request (`OK` or `ERROR`).
+            - `message`: An optional message providing additional details about the request result.
+            - `id`: The unique identifier of the newly added category.
+            """
+            request = AddCategoryRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                name=name,
+                type=type,
+                instructions=instructions,
+            )
+            response: AddCategoryResponse = await add_category(request)
+            return response
+
+        async def update_category(
+            self,
+            collection_id: str,
+            category_id: str,
+            name: Optional[str] = None,
+            type: Optional[CategoryType] = None,
+            instructions: Optional[str] = None,
+        ) -> UpdateCategoryResponse:
+            """
+            Updates an existing category within a collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#collection
+
+            @param payload - The details of the category to update, including:
+            - `collection_id`: The ID of the collection containing the category.
+            - `category_id`: The unique identifier of the category to update.
+            - `name`: (Optional) The updated name of the category.
+            - `type`: (Optional) The updated type of the category (e.g., custom or predefined).
+            - `instructions`: (Optional) Additional updated instructions or notes related to the category.
+
+            @returns A promise that resolves to the response of the category update, including:
+            - `status`: The status of the request (`OK` or `ERROR`).
+            - `message`: An optional message providing additional details about the request result.
+            """
+            request = UpdateCategoryRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                category_id=category_id,
+                name=name,
+                type=type,
+                instructions=instructions,
+            )
+            response: UpdateCategoryResponse = await update_category(request)
+            return response
+
+        async def remove_category(
+            self, collection_id: str, category_id: str
+        ) -> RemoveCategoryResponse:
+            """
+            Removes an existing category from a collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#collection
+
+            @param payload - The details of the category to remove, including:
+            - `collection_id`: The ID of the collection containing the category.
+            - `category_id`: The unique identifier of the category to remove.
+
+            @returns A promise that resolves to the response of the category removal, including:
+            - `status`: The status of the request (`OK` or `ERROR`).
+            - `message`: An optional message providing additional details about the request result.
+            """
+            request = RemoveCategoryRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                category_id=category_id,
+            )
+            response: RemoveCategoryResponse = await remove_category(request)
+            return response
+
     class __Query__:
         """
         Query a collection. This requires your collection ID to query
@@ -913,6 +1040,46 @@ class Gestell:
                 category=category,
             )
             response: GetDocumentsResponse = await list_documents(request)
+            return response
+
+        async def upload_document(
+            self,
+            collection_id: str,
+            name: str,
+            file: Union[str, bytes],
+            type: Optional[str] = None,
+            instructions: Optional[str] = None,
+            job: Optional[bool] = None,
+        ) -> UploadDocumentResponse:
+            """
+            Uploads a document to a collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#document
+
+            @param payload - The details of the document to upload, including:
+            - `collection_id`: The ID of the collection to upload the document to.
+            - `name`: The name of the document.
+            - `file`: The file to upload, can be a path string or bytes.
+            - `type`: The type of the file (e.g., "text/plain").
+            - `instructions`: Optional instructions for the document.
+            - `job`: A boolean to indicate if the document should start processing immediately.
+
+            @returns A promise that resolves to the response of the document upload, including:
+            - `status`: The status of the request (`OK` or `ERROR`).
+            - `message`: An optional message providing additional details about the request result.
+            - `id`: The ID of the created document.
+            """
+            request = UploadDocumentRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                name=name,
+                file=file,
+                type=type,
+                instructions=instructions,
+                job=job,
+            )
+            response: UploadDocumentResponse = await upload_document(request)
             return response
 
         async def presign(
