@@ -10,7 +10,7 @@ import aiohttp
 
 
 class CreateCollectionRequest(BaseRequest):
-    organizationId: str
+    organization_id: str
     name: str
     type: CollectionType
     tags: Optional[List[str]] = None
@@ -32,7 +32,7 @@ async def create_collection(
     url = f'{request.api_url}/api/collection'
 
     payload = {
-        'organizationId': request.organizationId,
+        'organizationId': request.organization_id,
         'name': request.name,
         'type': request.type,
         'tags': request.tags if request.tags else [],

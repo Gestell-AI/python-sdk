@@ -23,7 +23,7 @@ async def test_create_organization():
 async def test_create_collection():
     global collection_id
     response = await gestell.collection.create(
-        organizationId=organization_id,
+        organization_id=organization_id,
         name='Automated Test Collection',
         description='An automated test collection',
         type='canon',

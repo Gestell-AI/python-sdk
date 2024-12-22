@@ -63,7 +63,7 @@ async def test_collection_list_error():
 @pytest.mark.asyncio
 async def test_collection_create_error():
     response = await gestell.collection.create(
-        organizationId='...', name='...', type='canon'
+        organization_id='...', name='...', type='canon'
     )
     assert response.status == 'ERROR'
 
@@ -191,7 +191,7 @@ async def test_collection_document_create_error():
 
 @pytest.mark.asyncio
 async def test_collection_document_upload_error():
-    response = await gestell.document.upload_document(
+    response = await gestell.document.upload(
         collection_id='...', type='...', name='...', file='...'
     )
     assert response.status == 'ERROR'

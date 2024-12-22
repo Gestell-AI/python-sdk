@@ -1,6 +1,6 @@
 import json
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse, FeatureLayout
+from typing import List, Optional
+from gestell.types import BaseRequest, BaseResponse
 import aiohttp
 
 
@@ -12,7 +12,7 @@ class FeaturesQueryRequest(BaseRequest):
 
 
 class FeaturesQueryResponse(BaseResponse):
-    result: list[FeatureLayout]
+    result: List[dict]
 
 
 async def featuresQuery(
@@ -21,7 +21,7 @@ async def featuresQuery(
     url = f'{request.api_url}/api/collection/{request.collection_id}/features'
 
     payload = {
-        'collection_id': request.collection_id,
+        'collectionId': request.collection_id,
         'categoryId': request.category_id,
         'skip': request.skip,
         'take': request.take,

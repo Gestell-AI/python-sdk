@@ -28,7 +28,7 @@ async def test_create_organization():
 async def test_create_collection():
     global collection_id
     response = await gestell.collection.create(
-        organizationId=organization_id,
+        organization_id=organization_id,
         name='Automated Test Collection',
         description='An automated test collection',
         type='frame',
@@ -71,7 +71,7 @@ async def test_presign_upload_and_create_document():
 @pytest.mark.asyncio
 async def test_upload_document_as_buffer_and_string():
     test_file_path = Path(__file__).parent / 'sample.jpg'
-    response = await gestell.document.upload_document(
+    response = await gestell.document.upload(
         collection_id=collection_id, name='sample-2.jpg', file=str(test_file_path)
     )
 
@@ -79,7 +79,7 @@ async def test_upload_document_as_buffer_and_string():
 
     async with AIOFile(str(test_file_path), 'rb') as f:
         file_content = await f.read()
-    response2 = await gestell.document.upload_document(
+    response2 = await gestell.document.upload(
         collection_id=collection_id,
         name='sample-2.jpg',
         type='image/jpeg',
