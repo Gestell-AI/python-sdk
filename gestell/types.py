@@ -1,6 +1,6 @@
 from typing import Literal, Optional, List, Union, Dict
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 StatusType = Literal['OK', 'ERROR']
 
@@ -81,6 +81,7 @@ class FeatureLayout(BaseModel):
     position: List[int]
     label: str
     description: str
+    model_config = ConfigDict(extra='allow')
 
 
 JobType = Literal['status', 'nodes', 'vectors', 'edges', 'category']

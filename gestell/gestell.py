@@ -376,7 +376,7 @@ class Gestell:
             response: BaseResponse = await delete_organization(request)
             return response
 
-        async def addMembers(
+        async def add_members(
             self, id: str, members: List[OrganizationMemberPayload]
         ) -> BaseResponse:
             """
@@ -402,7 +402,7 @@ class Gestell:
             response: AddMembersResponse = await add_members(request)
             return response
 
-        async def removeMembers(self, id: str, members: List[str]) -> BaseResponse:
+        async def remove_members(self, id: str, members: List[str]) -> BaseResponse:
             """
             Removes existing members from the organization based on the provided payload.
             Learn more about usage at: https://gestell.ai/docs/reference#organization
@@ -525,7 +525,7 @@ class Gestell:
 
         async def create(
             self,
-            organizationId: str,
+            organization_id: str,
             name: str,
             type: CollectionType,
             tags: Optional[List[str]] = None,
@@ -541,7 +541,7 @@ class Gestell:
             Learn more about usage at: https://gestell.ai/docs/reference#collection
 
             @param payload - The details of the new collection to create, including:
-            - `organizationId`: The ID of the organization to which the collection belongs.
+            - `organization_id`: The ID of the organization to which the collection belongs.
             - `name`: The name of the collection.
             - `type`: The type of the collection (`frame`, `searchable-frame`, `canon`, or `features`).
             - `tags`: An optional array of tags associated with the collection.
@@ -563,7 +563,7 @@ class Gestell:
                 api_key=self.parent.api_key,
                 api_url=self.parent.api_url,
                 debug=self.parent.debug,
-                organizationId=organizationId,
+                organization_id=organization_id,
                 name=name,
                 type=type,
                 tags=tags,
@@ -580,7 +580,7 @@ class Gestell:
         async def update(
             self,
             collection_id: str,
-            organizationId: Optional[str] = None,
+            organization_id: Optional[str] = None,
             name: Optional[str] = None,
             type: Optional[CollectionType] = None,
             description: Optional[str] = None,
@@ -596,7 +596,7 @@ class Gestell:
 
             @param payload - The details of the collection to update, including:
             - `id`: The unique identifier of the collection to update.
-            - `organizationId`: An optional update for the organization ID associated with the collection.
+            - `organization_id`: An optional update for the organization ID associated with the collection.
             - `name`: An optional new name for the collection.
             - `type`: An optional new type for the collection (`frame`, `searchable-frame`, `canon`, or `features`).
             - `description`: An optional new description for the collection.
@@ -614,7 +614,7 @@ class Gestell:
                 api_url=self.parent.api_url,
                 debug=self.parent.debug,
                 collection_id=collection_id,
-                organizationId=organizationId,
+                organization_id=organization_id,
                 name=name,
                 type=type,
                 description=description,
@@ -1042,7 +1042,7 @@ class Gestell:
             response: GetDocumentsResponse = await list_documents(request)
             return response
 
-        async def upload_document(
+        async def upload(
             self,
             collection_id: str,
             name: str,

@@ -59,7 +59,7 @@ async def test_update_organization():
 
 @pytest.mark.asyncio
 async def test_add_member_to_organization():
-    response = await gestell.organization.addMembers(
+    response = await gestell.organization.add_members(
         id=organization_id,
         members=[{'id': 'test@chriscates.ca', 'role': 'member'}],
     )
@@ -68,7 +68,7 @@ async def test_add_member_to_organization():
 
 @pytest.mark.asyncio
 async def test_remove_member_from_organization():
-    response = await gestell.organization.removeMembers(
+    response = await gestell.organization.remove_members(
         id=organization_id,
         members=['test@chriscates.ca'],
     )

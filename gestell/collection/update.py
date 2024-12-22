@@ -6,7 +6,7 @@ import aiohttp
 
 class UpdateCollectionRequest(BaseRequest):
     collection_id: str
-    organizationId: Optional[str] = None
+    organization_id: Optional[str] = None
     name: Optional[str] = None
     type: Optional[CollectionType] = None
     description: Optional[str] = None
@@ -27,7 +27,7 @@ async def update_collection(
     url = f'{request.api_url}/api/collection/{request.collection_id}'
 
     payload = {
-        'organizationId': request.organizationId,
+        'organizationId': request.organization_id,
         'name': request.name,
         'type': request.type,
         'description': request.description,
