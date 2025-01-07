@@ -1,3 +1,4 @@
+import os
 import pytest
 from gestell import Gestell
 from pathlib import Path
@@ -6,22 +7,12 @@ import aiohttp
 
 
 gestell = Gestell()
-organization_id = ''
+organization_id = os.getenv('ORGANIZATION_ID')
+if not organization_id:
+    raise ValueError('ORGANIZATION_ID environment variable is not set')
 collection_id = ''
 document_id = ''
 job_id = ''
-
-
-@pytest.mark.asyncio
-async def test_create_organization():
-    global organization_id
-    response = await gestell.organization.create(
-        name='Automated Test Organization',
-        description='This is an automated test organization',
-    )
-    assert response.status == 'OK'
-    assert len(response.id) > 1
-    organization_id = response.id
 
 
 @pytest.mark.asyncio
@@ -63,6 +54,7 @@ async def test_presign_upload_and_create_document():
         name='sample.jpg',
         path=presign_response.path,
         type='image/jpeg',
+        job=False,
     )
     assert create_response.status == 'OK'
     document_id = create_response.id
@@ -72,10 +64,15 @@ async def test_presign_upload_and_create_document():
 async def test_upload_document_as_buffer_and_string():
     test_file_path = Path(__file__).parent / 'sample.jpg'
     response = await gestell.document.upload(
-        collection_id=collection_id, name='sample-2.jpg', file=str(test_file_path)
+        collection_id=collection_id,
+        name='sample-2.jpg',
+        file=str(test_file_path),
+        job=False,
     )
 
     assert response.status == 'OK'
+
+    await gestell.document.delete(collection_id=collection_id, document_id=response.id)
 
     async with AIOFile(str(test_file_path), 'rb') as f:
         file_content = await f.read()
@@ -84,9 +81,12 @@ async def test_upload_document_as_buffer_and_string():
         name='sample-2.jpg',
         type='image/jpeg',
         file=file_content,
+        job=False,
     )
 
     assert response2.status == 'OK'
+
+    await gestell.document.delete(collection_id=collection_id, document_id=response2.id)
 
 
 @pytest.mark.asyncio
@@ -138,10 +138,4 @@ async def test_delete_document():
 @pytest.mark.asyncio
 async def test_delete_collection():
     response = await gestell.collection.delete(collection_id=collection_id)
-    assert response.status == 'OK'
-
-
-@pytest.mark.asyncio
-async def test_delete_organization():
-    response = await gestell.organization.delete(id=organization_id)
     assert response.status == 'OK'

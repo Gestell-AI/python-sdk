@@ -2,7 +2,7 @@
 
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python-version](https://img.shields.io/badge/python-3-blue)
-![version](https://img.shields.io/badge/version-1.1.25-blue)
+![version](https://img.shields.io/badge/version-1.2.1-blue)
 [![Coverage Status](https://coveralls.io/repos/github/Gestell-AI/python-sdk/badge.svg?branch=master)](https://coveralls.io/github/Gestell-AI/python-sdk?branch=master)
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/7sUmZuDYQ6cd8WbCiCCnfR/4vJwvhbzy5DseAhXZ59L2t/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/7sUmZuDYQ6cd8WbCiCCnfR/4vJwvhbzy5DseAhXZ59L2t/tree/master)
 

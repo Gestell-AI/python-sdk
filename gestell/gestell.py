@@ -1,15 +1,11 @@
 import os
-from typing import AsyncGenerator, List, Optional, Union
+from typing import AsyncGenerator, List, Literal, Optional, Union
 from dotenv import load_dotenv
+from gestell.document.export import ExportDocumentRequest, export_document
 from gestell.document.upload import (
     UploadDocumentRequest,
     UploadDocumentResponse,
     upload_document,
-)
-from gestell.organization.create import (
-    create_organization,
-    CreateOrganizationRequest,
-    CreateOrganizationResponse,
 )
 from gestell.organization.get import (
     get_organization,
@@ -25,10 +21,6 @@ from gestell.organization.update import (
     update_organization,
     UpdateOrganizationRequest,
     UpdateOrganizationResponse,
-)
-from gestell.organization.delete import (
-    delete_organization,
-    DeleteOrganizationRequest,
 )
 from gestell.organization.members.add import (
     add_members,
@@ -79,6 +71,8 @@ from gestell.collection.removeCategory import (
     RemoveCategoryResponse,
     remove_category,
 )
+from gestell.query.exportFeatures import ExportFeaturesRequest, export_features
+from gestell.query.exportTable import ExportTableRequest, export_table
 from gestell.query.search import (
     search_query,
     SearchQueryRequest,
@@ -264,32 +258,6 @@ class Gestell:
             response: GetOrganizationResponse = await get_organization(request)
             return response
 
-        async def create(
-            self,
-            name: str,
-            description: str,
-            members: Optional[List[OrganizationMemberPayload]] = None,
-        ) -> CreateOrganizationResponse:
-            """
-            Creates a new organization.
-            Learn more about usage at: https://gestell.ai/docs/reference#organization
-
-            @param `name`: The name of the organization.
-            @param `description`: A brief description of the organization.
-            @param `members`: An array of members to add to the organization.
-            @returns A dictionary containing the id of the new organization
-            """
-            request = CreateOrganizationRequest(
-                api_key=self.parent.api_key,
-                api_url=self.parent.api_url,
-                debug=self.parent.debug,
-                name=name,
-                description=description,
-                members=members,
-            )
-            response: CreateOrganizationResponse = await create_organization(request)
-            return response
-
         async def list(
             self,
             search: Optional[str] = None,
@@ -354,26 +322,6 @@ class Gestell:
                 description=description,
             )
             response: UpdateOrganizationResponse = await update_organization(request)
-            return response
-
-        async def delete(self, id: str) -> BaseResponse:
-            """
-            Allows the deletion of an organization by its unique ID. Once deleted, the organization and associated data are removed from the system.
-            THIS IS NOT REVERSIBLE.
-            Learn more about usage at: https://gestell.ai/docs/reference#organization
-
-            @param `id`: The ID of the organization to delete.
-            returns A promise that resolves to the response of the update request, including:
-            - `status`: The status of the delete request.
-            - `message`: An optional message providing additional details about the request result.
-            """
-            request = DeleteOrganizationRequest(
-                api_key=self.parent.api_key,
-                api_url=self.parent.api_url,
-                debug=self.parent.debug,
-                id=id,
-            )
-            response: BaseResponse = await delete_organization(request)
             return response
 
         async def add_members(
@@ -901,6 +849,30 @@ class Gestell:
             response: FeaturesQueryResponse = await featuresQuery(request)
             return response
 
+        async def features_export(
+            self, collection_id: str, category_id: str, type: Literal['json', 'csv']
+        ) -> any:
+            """
+            Retrieves features  from a specific collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#query
+
+            @param payload - The features query parameters, including:
+            - `collection_id`: - The ID of the collection to query
+            - `category_id`: The ID of the category to retrieve features for.
+            - `type`: Either "json" or "csv" format
+            @returns A promise that resolves to a dynamic features array that depends on your category instructions.
+            """
+            request = ExportFeaturesRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                category_id=category_id,
+                type=type,
+            )
+            response: any = await export_features(request)
+            return response
+
         async def table(
             self,
             collection_id: str,
@@ -929,6 +901,30 @@ class Gestell:
                 take=take,
             )
             response: TablesQueryResponse = await tables_query(request)
+            return response
+
+        async def table_export(
+            self, collection_id: str, category_id: str, type: Literal['json', 'csv']
+        ) -> any:
+            """
+            Retrieves table-related information from a specific collection.
+            Learn more about usage at: https://gestell.ai/docs/reference#query
+
+            @param payload - The features query parameters, including:
+            - `collection_id`: - The ID of the collection to query
+            - `category_id`: The ID of the category to retrieve features for.
+            - `type`: Either "json" or "csv" format
+            @returns A promise that resolves to a dynamic table array that depends on your category instructions.
+            """
+            request = ExportTableRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                category_id=category_id,
+                type=type,
+            )
+            response: any = await export_table(request)
             return response
 
     class __Document__:
@@ -977,6 +973,29 @@ class Gestell:
                 document_id=document_id,
             )
             response: GetDocumentResponse = await get_document(request)
+            return response
+
+        async def export(
+            self, collection_id: str, document_id: str, type: Literal['json', 'text']
+        ) -> any:
+            """
+            Fetches a specific document from a collection using its unique document ID.
+            Learn more about usage at: https://gestell.ai/docs/reference#document
+
+            @param collection_id - The ID of the collection containing the document.
+            @param document_id - The ID of the document to retrieve.
+            @param type - JSON or Text
+            @returns A promise that resolves to the document in JSON or Text format
+            """
+            request = ExportDocumentRequest(
+                api_key=self.parent.api_key,
+                api_url=self.parent.api_url,
+                debug=self.parent.debug,
+                collection_id=collection_id,
+                document_id=document_id,
+                type=type,
+            )
+            response: any = await export_document(request)
             return response
 
         async def list(

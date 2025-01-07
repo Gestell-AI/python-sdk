@@ -1,23 +1,14 @@
+import os
 import pytest
 from gestell import Gestell
 
 gestell = Gestell()
-organization_id = ''
+organization_id = os.getenv('ORGANIZATION_ID')
+if not organization_id:
+    raise ValueError('ORGANIZATION_ID environment variable is not set')
 collection_id = ''
 feature_id = ''
 table_id = ''
-
-
-@pytest.mark.asyncio
-async def test_create_organization():
-    global organization_id
-    response = await gestell.organization.create(
-        name='Automated Test Organization',
-        description='This is an automated test organization',
-    )
-    assert response.status == 'OK'
-    assert len(response.id) > 1
-    organization_id = response.id
 
 
 @pytest.mark.asyncio
@@ -105,10 +96,4 @@ async def test_query_table():
 @pytest.mark.asyncio
 async def test_delete_collection():
     response = await gestell.collection.delete(collection_id)
-    assert response.status == 'OK'
-
-
-@pytest.mark.asyncio
-async def test_delete_organization():
-    response = await gestell.organization.delete(organization_id)
     assert response.status == 'OK'

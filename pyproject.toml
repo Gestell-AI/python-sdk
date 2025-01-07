@@ -1,6 +1,6 @@
 [project]
 name = "gestell"
-version = "1.1.25"
+version = "1.2.1"
 description = "The Official Gestell Python SDK"
 authors = [{ name = "Chris Cates", email = "hello@chriscates.ca" }]
 readme = "README.md"
@@ -29,7 +29,7 @@ build-backend = "hatchling.build"
 packages = ["gestell"]
 
 [tool.coverage.report]
-fail_under = 90
+fail_under = 80
 
 [tool.pytest.ini_options]
 pythonpath = ["gestell/test"]

@@ -25,26 +25,14 @@ async def test_organization_update_error():
 
 
 @pytest.mark.asyncio
-async def test_organization_create_error():
-    response = await gestell.organization.create(name='...', description='...')
-    assert response.status == 'ERROR'
-
-
-@pytest.mark.asyncio
 async def test_organization_add_members_error():
-    response = await gestell.organization.addMembers(id='...', members=[])
+    response = await gestell.organization.add_members(id='...', members=[])
     assert response.status == 'ERROR'
 
 
 @pytest.mark.asyncio
 async def test_organization_remove_members_error():
-    response = await gestell.organization.removeMembers(id='...', members=[])
-    assert response.status == 'ERROR'
-
-
-@pytest.mark.asyncio
-async def test_organization_delete_error():
-    response = await gestell.organization.delete('...')
+    response = await gestell.organization.remove_members(id='...', members=[])
     assert response.status == 'ERROR'
 
 
@@ -126,15 +114,29 @@ async def test_collection_query_prompt_error():
 
 
 @pytest.mark.asyncio
+async def test_collection_query_features_error():
+    response = await gestell.query.features(collection_id='...', category_id='...')
+    assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_query_features_export_error():
+    await gestell.query.features_export(
+        collection_id='...', category_id='...', type='json'
+    )
+
+
+@pytest.mark.asyncio
 async def test_collection_query_table_error():
     response = await gestell.query.table(collection_id='...', category_id='...')
     assert response.status == 'ERROR'
 
 
 @pytest.mark.asyncio
-async def test_collection_query_features_error():
-    response = await gestell.query.features(collection_id='...', category_id='...')
-    assert response.status == 'ERROR'
+async def test_collection_query_table_export_error():
+    await gestell.query.table_export(
+        collection_id='...', category_id='...', type='json'
+    )
 
 
 @pytest.mark.asyncio
@@ -165,6 +167,11 @@ async def test_collection_job_cancel_error():
 async def test_collection_document_get_error():
     response = await gestell.document.get(collection_id='...', document_id='...')
     assert response.status == 'ERROR'
+
+
+@pytest.mark.asyncio
+async def test_collection_document_export_error():
+    await gestell.document.export(collection_id='...', document_id='...', type='json')
 
 
 @pytest.mark.asyncio

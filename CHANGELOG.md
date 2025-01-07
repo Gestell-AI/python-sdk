@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.1
+
+- Removed Create and Delete Organization (can only be done in app)
+
+- Added export features for documents, tables and features
+
 ## 1.1.0
 
 - Added Category API Calls
