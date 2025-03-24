@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.3
+
+- Added the table flag for document upload and creation
+
+- Fixed pydantic async generator type error
+
 ## 1.2.1
 
 - Removed Create and Delete Organization (can only be done in app)

@@ -11,6 +11,7 @@ class CreateDocumentRequest(BaseRequest):
     type: str
     instructions: Optional[str] = None
     job: Optional[bool] = None
+    tables: Optional[bool] = None
 
 
 class CreateDocumentResponse(BaseResponse):
@@ -28,6 +29,7 @@ async def create_document(
         'type': request.type,
         'instructions': request.instructions,
         'job': request.job,
+        'tables': request.tables,
     }
 
     async with aiohttp.ClientSession() as session:

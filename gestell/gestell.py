@@ -771,7 +771,7 @@ class Gestell:
             cot: Optional[bool] = None,
             threadId: Optional[str] = None,
             chat: Optional[bool] = None,
-        ) -> AsyncGenerator[bytes]:
+        ) -> AsyncGenerator[bytes, None]:
             """
             Performs a query operation using a prompt on a specific collection.
             Learn more about usage at: https://gestell.ai/docs/reference#query
@@ -1069,6 +1069,7 @@ class Gestell:
             type: Optional[str] = None,
             instructions: Optional[str] = None,
             job: Optional[bool] = None,
+            tables: Optional[bool] = None,
         ) -> UploadDocumentResponse:
             """
             Uploads a document to a collection.
@@ -1081,6 +1082,7 @@ class Gestell:
             - `type`: The type of the file (e.g., "text/plain").
             - `instructions`: Optional instructions for the document.
             - `job`: A boolean to indicate if the document should start processing immediately.
+            - `tables`: A boolean that flags for additional table processing and analysis is performed on the document, use this for pdfs with complex tables
 
             @returns A promise that resolves to the response of the document upload, including:
             - `status`: The status of the request (`OK` or `ERROR`).
@@ -1097,6 +1099,7 @@ class Gestell:
                 type=type,
                 instructions=instructions,
                 job=job,
+                tables=tables,
             )
             response: UploadDocumentResponse = await upload_document(request)
             return response
@@ -1140,6 +1143,7 @@ class Gestell:
             type: str,
             instructions: Optional[str] = None,
             job: Optional[bool] = None,
+            tables: Optional[bool] = None,
         ) -> CreateDocumentResponse:
             """
             Allows the creation of a new document in a collection by providing the document details in the payload.
@@ -1152,6 +1156,8 @@ class Gestell:
             - `type`: The MIME type of the document (e.g., 'application/pdf').
             - `instructions` (optional): Additional instructions related to the document.
             - `job` (optional): Set to false to not dispatch a job
+             - `tables`: A boolean that flags for additional table processing and analysis is performed on the document, use this for pdfs with complex tables
+
             @returns A promise that resolves to the response of the document creation request, including:
             - `status`: The status of the document creation request.
             - `message`: An optional message providing additional details about the request result.
@@ -1167,6 +1173,7 @@ class Gestell:
                 type=type,
                 instructions=instructions,
                 job=job,
+                tables=tables,
             )
             response: CreateDocumentResponse = await create_document(request)
             return response
@@ -1178,6 +1185,7 @@ class Gestell:
             name: Optional[str] = None,
             instructions: Optional[str] = None,
             job: Optional[bool] = None,
+            tables: Optional[bool] = None,
         ) -> BaseResponse:
             """
             Allows the updating of a document’s details in a collection. Requires the document ID and updated information.
@@ -1189,6 +1197,8 @@ class Gestell:
             - `name` (optional): The updated name of the document.
             - `instructions` (optional): Updated instructions related to the document.
             - `job` (optional): Set to true to dispatch a reprocessing job
+            - `tables`: A boolean that flags for additional table processing and analysis is performed on the document, use this for pdfs with complex tables
+
             @returns A promise that resolves to the response of the update request, including:
             - `status`: The status of the update request.
             - `message`: An optional message providing additional details about the update result.
@@ -1202,6 +1212,7 @@ class Gestell:
                 name=name,
                 instructions=instructions,
                 job=job,
+                tables=tables,
             )
             response: BaseResponse = await update_document(request)
             return response

@@ -10,6 +10,7 @@ class UpdateDocumentRequest(BaseRequest):
     name: Optional[str] = None
     instructions: Optional[str] = None
     job: Optional[bool] = None
+    tables: Optional[bool] = None
 
 
 async def update_document(
@@ -25,6 +26,7 @@ async def update_document(
             'name': request.name,
             'instructions': request.instructions,
             'job': request.job,
+            'tables': request.tables,
         }.items()
         if v is not None
     }

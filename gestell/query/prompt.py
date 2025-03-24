@@ -21,7 +21,7 @@ class PromptQueryRequest(BaseRequest, PromptPayload):
 
 async def prompt_query(
     request: PromptQueryRequest,
-) -> AsyncGenerator[bytes]:
+) -> AsyncGenerator[bytes, None]:
     url = f'{request.api_url}/api/collection/{request.collection_id}/prompt'
 
     payload = {

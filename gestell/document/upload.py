@@ -14,6 +14,7 @@ class UploadDocumentRequest(BaseRequest):
     type: Optional[str] = None
     instructions: Optional[str] = None
     job: Optional[bool] = None
+    tables: Optional[bool] = None
 
 
 class UploadDocumentResponse(BaseResponse):
@@ -102,6 +103,7 @@ async def upload_document(
         type=file_type,
         instructions=request.instructions,
         job=request.job,
+        tables=request.tables,
     )
 
     create_response = await create_document(create_request)
