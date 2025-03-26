@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 1.3.0
+
+- Deprecated `threadId` and `chat` flags, instead use messages for history:
+
+```python
+class PromptMessage:
+    role: Literal['user', 'model', 'system']
+    content: str
+```
+
+- Updated job management to use `documentId` only
+
 ## 1.2.3
 
 - Added the table flag for document upload and creation

@@ -1,7 +1,10 @@
 import json
-from typing import AsyncGenerator, Optional
+from typing import AsyncGenerator, Dict, Literal, Optional
 from gestell.types import BaseRequest, PromptPayload, QueryKV
 import aiohttp
+
+
+PromptMessage = Dict[Literal['role', 'content'], str]
 
 
 class PromptQueryRequest(BaseRequest, PromptPayload):
@@ -15,8 +18,7 @@ class PromptQueryRequest(BaseRequest, PromptPayload):
     maxResults: Optional[int]
     template: Optional[str]
     cot: Optional[bool]
-    threadId: Optional[str]
-    chat: Optional[bool]
+    messages: Optional[list[PromptMessage]]
 
 
 async def prompt_query(

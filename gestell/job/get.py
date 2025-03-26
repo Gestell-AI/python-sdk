@@ -5,7 +5,7 @@ import aiohttp
 
 class GetJobRequest(BaseRequest):
     collection_id: str
-    job_id: str
+    document_id: str
 
 
 class GetJobResponse(BaseResponse):
@@ -13,9 +13,7 @@ class GetJobResponse(BaseResponse):
 
 
 async def get_job(request: GetJobRequest) -> GetJobResponse:
-    url = (
-        f'{request.api_url}/api/collection/{request.collection_id}/job/{request.job_id}'
-    )
+    url = f'{request.api_url}/api/collection/{request.collection_id}/job/{request.document_id}'
 
     async with aiohttp.ClientSession() as session:
         try:

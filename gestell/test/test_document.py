@@ -12,7 +12,6 @@ if not organization_id:
     raise ValueError('ORGANIZATION_ID environment variable is not set')
 collection_id = ''
 document_id = ''
-job_id = ''
 
 
 @pytest.mark.asyncio
@@ -99,31 +98,31 @@ async def test_update_document():
 
 @pytest.mark.asyncio
 async def test_get_document():
-    global job_id
     response = await gestell.document.get(
         collection_id=collection_id, document_id=document_id
     )
     assert response.status == 'OK'
-    job_id = response.result.job.id if response.result and response.result.job else ''
 
 
 @pytest.mark.asyncio
 async def test_get_document_job():
-    response = await gestell.job.get(collection_id=collection_id, job_id=job_id)
+    response = await gestell.job.get(
+        collection_id=collection_id, document_id=document_id
+    )
     assert response.status == 'OK'
 
 
 @pytest.mark.asyncio
 async def test_reprocess_document_job():
     response = await gestell.job.reprocess(
-        collection_id=collection_id, type='status', ids=[job_id]
+        collection_id=collection_id, type='status', ids=[document_id]
     )
     assert response.status == 'OK'
 
 
 @pytest.mark.asyncio
 async def test_cancel_document_job():
-    response = await gestell.job.cancel(collection_id=collection_id, ids=[job_id])
+    response = await gestell.job.cancel(collection_id=collection_id, ids=[document_id])
     assert response.status == 'OK'
 
 

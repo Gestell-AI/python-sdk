@@ -79,6 +79,7 @@ from gestell.query.search import (
     SearchQueryResponse,
 )
 from gestell.query.prompt import (
+    PromptMessage,
     PromptQueryRequest,
     prompt_query,
 )
@@ -769,8 +770,7 @@ class Gestell:
             maxResults: Optional[int] = None,
             template: Optional[str] = None,
             cot: Optional[bool] = None,
-            threadId: Optional[str] = None,
-            chat: Optional[bool] = None,
+            messages: Optional[list[PromptMessage]] = [],
         ) -> AsyncGenerator[bytes, None]:
             """
             Performs a query operation using a prompt on a specific collection.
@@ -788,8 +788,8 @@ class Gestell:
             - `maxResults`: An optional maximum number of results to return.
             - `template`: An optional template to use for the prompt.
             - `cot`: A flag indicating whether to use chain-of-thought reasoning (optional).
-            - `threadId`: An optional thread ID to associate with the query.
-            - `chat`: A flag indicating whether the query is part of a chat (optional).
+            - `messages`: The message history for the chat
+
             @returns A promise that resolves to a readable stream of the prompt query response.
             """
             request = PromptQueryRequest(
@@ -807,8 +807,7 @@ class Gestell:
                 maxResults=maxResults,
                 template=template,
                 cot=cot,
-                threadId=threadId,
-                chat=chat,
+                messages=messages,
             )
             async for chunk in prompt_query(request):
                 yield chunk
@@ -1249,13 +1248,13 @@ class Gestell:
         def __init__(self, parent: 'Gestell'):
             self.parent = parent
 
-        async def get(self, collection_id: str, job_id: str) -> GetJobResponse:
+        async def get(self, collection_id: str, document_id: str) -> GetJobResponse:
             """
             Fetches the details of a job using its unique job ID.
             Learn more about usage at: https://gestell.ai/docs/reference#job
 
             @param collection_id - The ID of the collection where the job exists.
-            @param job_id - The ID of the job to retrieve.
+            @param document_id - The document id for the job to retrieve.
             @returns A promise that resolves to the job details, including:
             - `status`: The status of the job.
             - `message`: An optional message providing additional details about the job.
@@ -1274,7 +1273,7 @@ class Gestell:
                 api_url=self.parent.api_url,
                 debug=self.parent.debug,
                 collection_id=collection_id,
-                job_id=job_id,
+                document_id=document_id,
             )
             response: GetJobResponse = await get_job(request)
             return response
@@ -1323,8 +1322,8 @@ class Gestell:
 
             @param collection_id - The ID of the collection where the job will be created.
             @param payload - The job creation parameters, including:
-            - `ids`: An array of string IDs representing the entities to process in the job.
-            - `type`: The type of the job to create (e.g., 'status', 'nodes', 'vectors', 'edges', 'category').
+            - `ids`: An array of document ids to dispatch a reprocess job for
+            - `type`: The type of job to reprocess for ('status', 'nodes', 'vectors', 'edges', 'category').
             @returns A promise that resolves to the response of the job creation request, including:
             - `status`: The result status of the job creation request.
             - `message`: An optional message providing additional details about the job creation.

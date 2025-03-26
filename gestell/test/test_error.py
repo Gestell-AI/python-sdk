@@ -104,7 +104,7 @@ async def test_collection_query_search_error():
 
 @pytest.mark.asyncio
 async def test_collection_query_prompt_error():
-    response = gestell.query.prompt(collection_id='...', prompt='...')
+    response = gestell.query.prompt(collection_id='...', prompt='...', messages=[])
     full_response = b''
     async for chunk in response:
         full_response += chunk
@@ -141,7 +141,7 @@ async def test_collection_query_table_export_error():
 
 @pytest.mark.asyncio
 async def test_collection_job_get_error():
-    response = await gestell.job.get(collection_id='...', job_id='...')
+    response = await gestell.job.get(collection_id='...', document_id='...')
     assert response.status == 'ERROR'
 
 

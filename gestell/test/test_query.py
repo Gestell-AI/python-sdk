@@ -66,8 +66,7 @@ async def test_query_prompt():
         prompt='Unga Bunga, do not return anything, Unga Bunga',
         method='fast',
         cot=False,
-        chat=False,
-        threadId='',
+        messages=[{'role': 'system', 'content': 'Hello world'}],
     )
     full_response = b''
     async for chunk in response:
