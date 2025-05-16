@@ -1,7 +1,8 @@
+import aiohttp
 import json
 from typing import Optional, List
+
 from gestell.types import BaseRequest, BaseResponse
-import aiohttp
 
 
 class TablesQueryRequest(BaseRequest):
@@ -9,6 +10,7 @@ class TablesQueryRequest(BaseRequest):
     category_id: str
     skip: Optional[int] = 0
     take: Optional[int] = 10
+    prompt: Optional[str] = ''
 
 
 class TablesQueryResponse(BaseResponse):
@@ -25,6 +27,7 @@ async def tables_query(
         'categoryId': request.category_id,
         'skip': request.skip,
         'take': request.take,
+        'prompt': request.prompt,
     }
 
     async with aiohttp.ClientSession() as session:

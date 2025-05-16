@@ -1,7 +1,7 @@
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse, Document, JobStatusType
 import aiohttp
-from typing import List
+from typing import Optional, List
+
+from gestell.types import BaseRequest, BaseResponse, Document, JobStatus
 
 
 class GetDocumentsRequest(BaseRequest):
@@ -10,11 +10,11 @@ class GetDocumentsRequest(BaseRequest):
     take: Optional[int] = None
     skip: Optional[int] = None
     extended: Optional[bool] = None
-    status: Optional[JobStatusType] = None
-    nodes: Optional[JobStatusType] = None
-    edges: Optional[JobStatusType] = None
-    vectors: Optional[JobStatusType] = None
-    category: Optional[JobStatusType] = None
+    status: Optional[JobStatus] = None
+    nodes: Optional[JobStatus] = None
+    edges: Optional[JobStatus] = None
+    vectors: Optional[JobStatus] = None
+    category: Optional[JobStatus] = None
 
 
 class GetDocumentsResponse(BaseResponse):

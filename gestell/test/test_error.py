@@ -104,7 +104,12 @@ async def test_collection_query_search_error():
 
 @pytest.mark.asyncio
 async def test_collection_query_prompt_error():
-    response = gestell.query.prompt(collection_id='...', prompt='...', messages=[])
+    response = gestell.query.prompt(
+        collection_id='...',
+        prompt='...',
+        messages=[],
+        cot=False,
+    )
     full_response = b''
     async for chunk in response:
         full_response += chunk

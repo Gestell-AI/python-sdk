@@ -1,7 +1,8 @@
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse, CategoryType
 import aiohttp
 import json
+from typing import Optional
+
+from gestell.types import BaseRequest, BaseResponse, CategoryType
 
 
 class UpdateCategoryRequest(BaseRequest):
@@ -10,6 +11,7 @@ class UpdateCategoryRequest(BaseRequest):
     name: Optional[str] = None
     type: Optional[CategoryType] = None
     instructions: Optional[str] = None
+    single_entry: Optional[bool] = None
 
 
 class UpdateCategoryResponse(BaseResponse):
@@ -21,12 +23,16 @@ async def update_category(
 ) -> UpdateCategoryResponse:
     url = f'{request.api_url}/api/collection/{request.collection_id}/category'
 
-    payload = {
-        'categoryId': request.category_id,
-        'name': request.name,
-        'type': request.type,
-        'instructions': request.instructions,
-    }
+    payload = {'categoryId': request.category_id}
+
+    if request.name is not None:
+        payload['name'] = request.name
+    if request.type is not None:
+        payload['type'] = request.type
+    if request.instructions is not None:
+        payload['instructions'] = request.instructions
+    if request.single_entry is not None:
+        payload['singleEntry'] = request.single_entry
 
     async with aiohttp.ClientSession() as session:
         try:

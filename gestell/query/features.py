@@ -1,7 +1,8 @@
+import aiohttp
 import json
 from typing import List, Optional
+
 from gestell.types import BaseRequest, BaseResponse
-import aiohttp
 
 
 class FeaturesQueryRequest(BaseRequest):

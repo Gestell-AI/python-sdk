@@ -1,14 +1,15 @@
+import aiohttp
 import json
 from typing import List, Optional
+
 from gestell.types import BaseRequest, BaseResponse
-from gestell.types import OrganizationMemberPayload
-import aiohttp
+from gestell.types import OrganizationMemberRequest
 
 
 class CreateOrganizationRequest(BaseRequest):
     name: str
     description: str
-    members: Optional[List[OrganizationMemberPayload]]
+    members: Optional[List[OrganizationMemberRequest]]
 
 
 class CreateOrganizationResponse(BaseResponse):

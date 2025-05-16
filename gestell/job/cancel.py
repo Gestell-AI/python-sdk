@@ -1,6 +1,7 @@
-from typing import List
-from gestell.types import BaseRequest, BaseResponse
 import aiohttp
+from typing import List
+
+from gestell.types import BaseRequest, BaseResponse
 
 
 class CancelJobsRequest(BaseRequest):

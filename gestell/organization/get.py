@@ -1,7 +1,8 @@
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse
-from gestell.types import Organization
 import aiohttp
+from typing import Optional
+
+from gestell.types import BaseRequest, BaseResponse
+from gestell.types import OrganizationResult
 
 
 class GetOrganizationRequest(BaseRequest):
@@ -9,7 +10,7 @@ class GetOrganizationRequest(BaseRequest):
 
 
 class GetOrganizationResponse(BaseResponse):
-    result: Optional[Organization] = None
+    result: Optional[OrganizationResult] = None
 
 
 async def get_organization(

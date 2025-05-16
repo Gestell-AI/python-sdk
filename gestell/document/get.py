@@ -1,6 +1,7 @@
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse, Document
 import aiohttp
+from typing import Optional
+
+from gestell.types import BaseRequest, BaseResponse, Document
 
 
 class GetDocumentRequest(BaseRequest):

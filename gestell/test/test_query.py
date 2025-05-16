@@ -40,8 +40,18 @@ async def test_create_collection():
 @pytest.mark.asyncio
 async def test_retrieve_category_ids():
     global feature_id, table_id
+
+    collections = await gestell.collection.list()
+    assert collections.status == 'OK'
+    assert len(collections.result) > 0, 'No collections found'
+
+    collection_id = collections.result[0].id
+
     response = await gestell.collection.get(collection_id=collection_id)
     assert response.status == 'OK'
+    assert response.result is not None, 'No collection data returned'
+    assert response.result.categories is not None, 'No categories found in collection'
+
     for category in response.result.categories:
         if category.type == 'features':
             feature_id = category.id

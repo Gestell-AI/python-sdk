@@ -1,6 +1,7 @@
-from typing import Literal
-from gestell.types import BaseRequest
 import aiohttp
+from typing import Literal
+
+from gestell.types import BaseRequest
 
 
 class ExportDocumentRequest(BaseRequest):

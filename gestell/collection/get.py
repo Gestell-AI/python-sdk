@@ -1,7 +1,8 @@
+import aiohttp
 from typing import Optional
+
 from gestell.types import BaseRequest, BaseResponse
 from gestell.types import Collection, CollectionStats
-import aiohttp
 
 
 class GetCollectionRequest(BaseRequest):

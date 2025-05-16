@@ -1,6 +1,7 @@
-import json
-from gestell.types import BaseRequest, BaseResponse
 import aiohttp
+import json
+
+from gestell.types import BaseRequest, BaseResponse
 
 
 class UpdateOrganizationRequest(BaseRequest):

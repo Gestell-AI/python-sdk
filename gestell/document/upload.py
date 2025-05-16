@@ -1,7 +1,8 @@
 import aiohttp
-from typing import Optional, Union
 import mimetypes
 import os
+from typing import Optional, Union
+
 from gestell.document.create import create_document, CreateDocumentRequest
 from gestell.document.presign import presign_document, PresignDocumentRequest
 from gestell.types import BaseRequest, BaseResponse

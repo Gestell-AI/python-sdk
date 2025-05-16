@@ -1,6 +1,7 @@
-from typing import Optional
-from gestell.types import BaseRequest, BaseResponse, Job
 import aiohttp
+from typing import Optional
+
+from gestell.types import BaseRequest, BaseResponse, Job
 
 
 class GetJobRequest(BaseRequest):

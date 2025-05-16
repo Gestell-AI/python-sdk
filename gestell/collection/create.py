@@ -1,18 +1,22 @@
+import aiohttp
 import json
 from typing import List, Optional
+
 from gestell.types import (
     BaseRequest,
     BaseResponse,
     CollectionType,
     CreateCategoryPayload,
+    PiiIdentifierOption,
 )
-import aiohttp
 
 
 class CreateCollectionRequest(BaseRequest):
     organization_id: str
     name: str
     type: CollectionType
+    pii: Optional[bool] = None
+    pii_controls: Optional[List[PiiIdentifierOption]] = None
     tags: Optional[List[str]] = None
     description: Optional[str] = None
     instructions: Optional[str] = None
@@ -36,12 +40,14 @@ async def create_collection(
         'name': request.name,
         'type': request.type,
         'tags': request.tags if request.tags else [],
+        'pii': request.pii,
+        'piiControls': request.pii_controls,
         'description': request.description,
         'instructions': request.instructions,
         'graphInstructions': request.graphInstructions,
         'promptInstructions': request.promptInstructions,
         'searchInstructions': request.searchInstructions,
-        'categories': [cat.__dict__ for cat in request.categories]
+        'categories': [cat.model_dump(by_alias=True) for cat in request.categories]
         if request.categories
         else [],
     }

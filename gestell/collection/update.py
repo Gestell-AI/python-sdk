@@ -1,7 +1,8 @@
+import aiohttp
 import json
 from typing import List, Optional
-from gestell.types import BaseRequest, BaseResponse, CollectionType
-import aiohttp
+
+from gestell.types import BaseRequest, BaseResponse, CollectionType, PiiIdentifierOption
 
 
 class UpdateCollectionRequest(BaseRequest):
@@ -9,6 +10,8 @@ class UpdateCollectionRequest(BaseRequest):
     organization_id: Optional[str] = None
     name: Optional[str] = None
     type: Optional[CollectionType] = None
+    pii: Optional[bool] = None
+    pii_controls: Optional[List[PiiIdentifierOption]] = None
     description: Optional[str] = None
     instructions: Optional[str] = None
     graphInstructions: Optional[str] = None
@@ -30,6 +33,8 @@ async def update_collection(
         'organizationId': request.organization_id,
         'name': request.name,
         'type': request.type,
+        'pii': request.pii,
+        'piiControls': request.pii_controls,
         'description': request.description,
         'instructions': request.instructions,
         'graphInstructions': request.graphInstructions,

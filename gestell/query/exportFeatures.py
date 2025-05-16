@@ -1,6 +1,7 @@
-from typing import Literal
-from gestell.types import BaseRequest
 import aiohttp
+from typing import Any, Literal
+
+from gestell.types import BaseRequest
 
 
 class ExportFeaturesRequest(BaseRequest):
@@ -11,7 +12,7 @@ class ExportFeaturesRequest(BaseRequest):
 
 async def export_features(
     request: ExportFeaturesRequest,
-) -> any:
+) -> Any:
     url = f'{request.api_url}/api/collection/{request.collection_id}/features/export?categoryId={request.category_id}&type={request.type}'
 
     async with aiohttp.ClientSession() as session:

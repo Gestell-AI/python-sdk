@@ -1,17 +1,18 @@
-from typing import List, Optional
-from gestell.types import BaseRequest, BaseResponse, Job, JobStatusType
 import aiohttp
+from typing import List, Optional
+
+from gestell.types import BaseRequest, BaseResponse, Job, JobStatus
 
 
 class GetJobsRequest(BaseRequest):
     collection_id: str
     take: Optional[int] = 10
     skip: Optional[int] = 0
-    status: Optional[JobStatusType] = 'all'
-    nodes: Optional[JobStatusType] = 'all'
-    edges: Optional[JobStatusType] = 'all'
-    vectors: Optional[JobStatusType] = 'all'
-    category: Optional[JobStatusType] = 'all'
+    status: Optional[JobStatus] = 'all'
+    nodes: Optional[JobStatus] = 'all'
+    edges: Optional[JobStatus] = 'all'
+    vectors: Optional[JobStatus] = 'all'
+    category: Optional[JobStatus] = 'all'
 
 
 class GetJobsResponse(BaseResponse):

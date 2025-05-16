@@ -1,7 +1,8 @@
+import aiohttp
 import json
 from typing import List
+
 from gestell.types import BaseRequest, BaseResponse, JobType
-import aiohttp
 
 
 class ReprocessDocumentsRequest(BaseRequest):

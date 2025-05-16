@@ -1,5 +1,6 @@
-from gestell.types import BaseRequest, BaseResponse
 import aiohttp
+
+from gestell.types import BaseRequest, BaseResponse
 
 
 class DeleteDocumentRequest(BaseRequest):

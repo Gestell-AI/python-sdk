@@ -1,6 +1,8 @@
-import json
-from gestell.types import BaseRequest, BaseResponse, CategoryType
 import aiohttp
+import json
+from typing import Optional
+
+from gestell.types import BaseRequest, BaseResponse, CategoryType
 
 
 class AddCategoryRequest(BaseRequest):
@@ -8,6 +10,7 @@ class AddCategoryRequest(BaseRequest):
     name: str
     type: CategoryType
     instructions: str
+    single_entry: Optional[bool] = False
 
 
 class AddCategoryResponse(BaseResponse):
@@ -23,6 +26,7 @@ async def add_category(
         'name': request.name,
         'type': request.type,
         'instructions': request.instructions,
+        'singleEntry': request.single_entry,
     }
 
     async with aiohttp.ClientSession() as session:
