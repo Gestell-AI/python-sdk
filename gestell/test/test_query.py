@@ -74,9 +74,6 @@ async def test_query_prompt():
     response = gestell.query.prompt(
         collection_id=collection_id,
         prompt='Unga Bunga, do not return anything, Unga Bunga',
-        method='fast',
-        cot=False,
-        messages=[{'role': 'system', 'content': 'Hello world'}],
     )
     full_response = b''
     async for chunk in response:

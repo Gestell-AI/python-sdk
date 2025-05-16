@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.1
+
+- Optional Default Behaviour Fixes
+
 ## 1.4.0
 
 - Exposed types with more verbose and clear response and request shapes

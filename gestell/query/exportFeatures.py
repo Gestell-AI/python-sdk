@@ -1,5 +1,5 @@
 import aiohttp
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from gestell.types import BaseRequest
 
@@ -7,7 +7,7 @@ from gestell.types import BaseRequest
 class ExportFeaturesRequest(BaseRequest):
     collection_id: str
     category_id: str
-    type: Literal['json', 'csv']
+    type: Optional[Literal['json', 'csv']] = 'json'
 
 
 async def export_features(

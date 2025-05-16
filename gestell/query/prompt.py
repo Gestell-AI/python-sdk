@@ -1,5 +1,6 @@
 import aiohttp
-from typing import AsyncGenerator, Optional, Dict, Any
+from typing import AsyncGenerator, List, Optional, Dict, Any
+from gestell.types.query import PromptMessage
 from pydantic import Field, ConfigDict
 
 from gestell.types import BaseRequest, PromptRequestBody
@@ -14,17 +15,16 @@ class PromptQueryRequest(BaseRequest, PromptRequestBody):
     collection_id: str = Field(..., alias='collectionId')
     category_id: Optional[str] = Field('', alias='categoryId')
     prompt: str = Field(...)
-    method: str = Field('normal')
-    type: str = Field('phrase')
+    method: Optional[str] = Field('normal')
+    type: Optional[str] = Field('phrase')
     vector_depth: Optional[int] = Field(None, alias='vectorDepth')
     node_depth: Optional[int] = Field(None, alias='nodeDepth')
     max_queries: Optional[int] = Field(None, alias='maxQueries')
     max_results: Optional[int] = Field(None, alias='maxResults')
     template: Optional[str] = Field('')
-    cot: bool = Field(True, alias='cot')
-    messages: list[Dict[str, Any]] = Field(default_factory=list)
+    cot: Optional[bool] = Field(True, alias='cot')
+    messages: List[PromptMessage] = Field(default_factory=list)
     thread_id: Optional[str] = Field(None, alias='threadId')
-    chat: Optional[str] = Field(None, alias='chat')
 
     model_config = ConfigDict(populate_by_name=True)
 

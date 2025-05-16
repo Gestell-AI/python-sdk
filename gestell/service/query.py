@@ -96,7 +96,6 @@ class QueryService(BaseService):
         self,
         collection_id: str,
         prompt: str,
-        *,
         category_id: Optional[str] = None,
         method: SearchMethod = 'normal',
         type: SearchType = 'phrase',
@@ -108,7 +107,6 @@ class QueryService(BaseService):
         cot: Optional[bool] = False,
         messages: Optional[List[PromptMessage]] = None,
         thread_id: Optional[str] = None,
-        chat: Optional[str] = None,
     ) -> AsyncGenerator[bytes, None]:
         """Perform a streaming prompt query on a collection.
 
@@ -130,7 +128,6 @@ class QueryService(BaseService):
             cot: If True, enable chain-of-thought reasoning.
             messages: Optional list of chat history messages.
             thread_id: Optional thread ID to continue an existing conversation.
-            chat: Optional chat session identifier.
 
         Returns:
             AsyncGenerator[bytes, None]: An async generator yielding raw response bytes.
@@ -162,9 +159,8 @@ class QueryService(BaseService):
             max_results=max_results,
             template=template,
             cot=cot,
-            messages=messages,
+            messages=messages or [],
             thread_id=thread_id,
-            chat=chat,
         )
 
         # delegate to the low-level query function

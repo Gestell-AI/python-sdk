@@ -1,5 +1,5 @@
 import aiohttp
-from typing import Literal
+from typing import Literal, Optional
 
 from gestell.types import BaseRequest
 
@@ -7,7 +7,7 @@ from gestell.types import BaseRequest
 class ExportDocumentRequest(BaseRequest):
     collection_id: str
     document_id: str
-    type: Literal['json', 'csv']
+    type: Optional[Literal['json', 'csv']] = 'json'
 
 
 async def export_document(request: ExportDocumentRequest) -> any:

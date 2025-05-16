@@ -150,7 +150,7 @@ class PromptRequestBody(SearchRequestBody):
     )
     cot: Optional[bool] = Field(True, description='Enable chain-of-thought reasoning.')
     messages: Optional[List[PromptMessage]] = Field(
-        None, description='Ordered list of past messages (oldest first).'
+        [], description='Ordered list of past messages (oldest first).'
     )
 
 
